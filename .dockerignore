@@ -1,0 +1,31 @@
+.git
+.gitignore
+.dockerignore
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+
+# Environment / secrets
+.env
+.env.*
+
+# Local artifacts
+*.sqlite3
+*.log
+
+# Docker files not needed in the image
+Dockerfile
+compose.yaml
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store

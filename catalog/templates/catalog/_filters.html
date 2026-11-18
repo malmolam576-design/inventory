@@ -1,0 +1,60 @@
+<form class="filters" method="get" action="/" onchange="this.requestSubmit()">
+  <div class="row">
+    <input
+      id="search"
+      type="search"
+      name="q"
+      value="{{ q }}"
+      placeholder="Search"
+      aria-label="Search by name or description"
+    />
+    <select name="category" aria-label="Category">
+      <option value="">All categories</option>
+      {% for c in categories %}
+      <option value="{{ c.slug }}"{% if c.slug == selected_category %} selected{% endif %}>{{ c.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  {% if tags %}
+  <fieldset class="tag-filter">
+    <legend>Tags</legend>
+    {% for t in tags %}
+    <label class="chip"
+      ><input
+        type="checkbox"
+        name="tag"
+        value="{{ t.slug }}"
+        {% if t.slug in selected_tags %}checked{% endif %}
+      /><span>{{ t.name }}</span></label
+    >
+    {% endfor %}
+  </fieldset>
+  {% endif %}
+  <div class="row">
+    {% if filtered %}<a class="clear" href="/">Clear</a>{% endif %}
+  </div>
+</form>
+<script>
+  (function () {
+    var input = document.getElementById("search");
+    var timer;
+    // Leave empty fields (q=, category=) out of the URL.
+    input.form.addEventListener("formdata", function (e) {
+      Array.from(e.formData.keys()).forEach(function (key) {
+        if (e.formData.get(key) === "") e.formData.delete(key);
+      });
+    });
+    input.addEventListener("input", function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        sessionStorage.setItem("refocusSearch", "1");
+        input.form.requestSubmit();
+      }, 400);
+    });
+    if (sessionStorage.getItem("refocusSearch")) {
+      sessionStorage.removeItem("refocusSearch");
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+    }
+  })();
+</script>

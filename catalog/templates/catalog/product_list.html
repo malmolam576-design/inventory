@@ -1,0 +1,31 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static 'catalog/styles.css' %}" />
+    <title>Products</title>
+  </head>
+
+  <body>
+    <main class="page">
+      <h1>Products</h1>
+
+      {% include "catalog/_filters.html" %} {% if products %}
+      <p class="summary">
+        {{ page_obj|length }} out of {{ page_obj.paginator.count }} product{{ page_obj.paginator.count|pluralize }}
+      </p>
+      <div class="grid">
+        {% for product in products %} {% include "catalog/_product_card.html" with product=product only %} {% endfor %}
+      </div>
+      {% include "catalog/_pagination.html" %} {% elif filtered %}
+      <p class="empty">No products.</p>
+      {% else %}
+      <p class="empty">
+        No products yet. Add some in the <a href="/admin/">admin</a>.
+      </p>
+      {% endif %}
+    </main>
+  </body>
+</html>

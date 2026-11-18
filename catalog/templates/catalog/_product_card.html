@@ -1,0 +1,19 @@
+<article class="product">
+  <div class="media"></div>
+  <div class="body">
+    {% if product.category %}
+    <p class="category">{{ product.category }}</p>
+    {% endif %}
+    <h2>{{ product.name }}</h2>
+    {% if product.description %}
+    <p class="desc">{{ product.description }}</p>
+    {% endif %} {% if product.tags.all %}
+    <ul class="tags">
+      {% for tag in product.tags.all %}
+      <li>{{ tag }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <p class="price">${{ product.price|floatformat:2 }}</p>
+  </div>
+</article>
